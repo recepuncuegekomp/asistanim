@@ -6,6 +6,7 @@ ini_set('display_errors', 1);
 require 'vendor/autoload.php';
 
 use Dialogflow\WebhookClient;
+use Dialogflow\Action\Responses\SimpleResponse;
 
 $agent = new WebhookClient(json_decode(file_get_contents('php://input'),true));
 $conv = $agent->getActionConversation();
