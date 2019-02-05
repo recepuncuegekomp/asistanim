@@ -14,7 +14,11 @@ use Dialogflow\Action\Questions\Carousel\Option;
 
 $agent = new WebhookClient(json_decode(file_get_contents('php://input'),true));
 
-$agent->reply('Merhaba, işte aylık kazancınız...');
+$text = \Dialogflow\RichMessage\Text::create()
+    ->text('Merhaba, işte aylık kazancınız...')
+    ->ssml('<speak>Merhaba, <say-as interpret-as="characters">işte aylık kazancınız...</say-as></speak>')
+;
+$agent->reply($text);
 
 header('Content-type: application/json');
 echo json_encode($agent->render());
