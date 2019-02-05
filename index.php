@@ -9,14 +9,8 @@ use Dialogflow\WebhookClient;
 use Dialogflow\Action\Responses\SimpleResponse;
 
 $agent = new WebhookClient(json_decode(file_get_contents('php://input'),true));
-$conv = $agent->getActionConversation();
 
-$conv->ask(SimpleResponse::create()
-     ->displayText('Merhaba, size nasıl yardımcı olabilirim?')
-     ->ssml('<speak>İşte, <break time="0.5s"/> <prosody rate="slow">bugünkü kazancınız...</prosody></speak>')
-);
+$agent->reply('İşte bu ayki kazancınız...');
 
-$conv->close('İyi günler!');
-
-//header('Content-type: application/json');
-//echo json_encode($agent->render());
+header('Content-type: application/json');
+echo json_encode($agent->render());
