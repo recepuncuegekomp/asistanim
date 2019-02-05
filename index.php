@@ -9,7 +9,11 @@ use Dialogflow\WebhookClient;
 
 $agent = new WebhookClient(json_decode(file_get_contents('php://input'),true));
 
-$agent->reply('Merhaba, nasıl yardımcı olabilirim?');
+$text = \Dialogflow\RichMessage\Text::create()
+  ->text('This is text')
+  ->ssml('<speak>This is <say-as interpret-as="characters">ssml</say-as></speak>');
+
+$agent->reply($text);
 
 header('Content-type: application/json');
 echo json_encode($agent->render());
