@@ -6,13 +6,11 @@ ini_set('display_errors', 1);
 require 'vendor/autoload.php';
 
 use Dialogflow\WebhookClient;
-use Dialogflow\RichMessage;
 
 $agent = new WebhookClient(json_decode(file_get_contents('php://input'),true));
 
-$image = Image::create('https://picsum.photos/200/300');
+$suggestion = \Dialogflow\RichMessage\Suggestion::create(['Seçenek 1', 'Seçenek 2']);
+$agent->reply($suggestion);
 
-$agent->reply($image);
-
-//header('Content-type: application/json');
-//echo json_encode($agent->render());
+header('Content-type: application/json');
+echo json_encode($agent->render());
