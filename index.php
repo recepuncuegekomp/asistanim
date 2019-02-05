@@ -14,7 +14,7 @@ use Dialogflow\Action\Questions\Carousel\Option;
 
 $agent = new WebhookClient(json_decode(file_get_contents('php://input'),true));
 
-$agent->reply('Hi, how can I help?');
+$agent->reply('Merhaba, işte aylık kazancınız...');
 
 header('Content-type: application/json');
 echo json_encode($agent->render());
