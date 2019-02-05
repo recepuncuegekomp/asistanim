@@ -8,9 +8,14 @@ require 'vendor/autoload.php';
 use Dialogflow\WebhookClient;
 
 $agent = new WebhookClient(json_decode(file_get_contents('php://input'),true));
+$conv = $agent->getActionConversation();
 
-$suggestion = \Dialogflow\RichMessage\Suggestion::create(['Seçenek 1', 'Seçenek 2']);
-$agent->reply($suggestion);
+$conv->ask(SimpleResponse::create()
+     ->displayText('Merhaba, size nasıl yardımcı olabilirim?')
+     ->ssml('<speak>İşte, <break time="0.5s"/> <prosody rate="slow">bugünkü kazancınız...</prosody></speak>')
+);
 
-header('Content-type: application/json');
-echo json_encode($agent->render());
+$conv->close('İyi günler!');
+
+//header('Content-type: application/json');
+//echo json_encode($agent->render());
