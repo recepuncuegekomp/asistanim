@@ -17,6 +17,7 @@ $conv = $agent->getActionConversation();
 if ($conv) {
 	/*$conv->close('Bu bir conversation işlemi.');*/	
 
+	$conv->ask('İşte rapor sonucunuz...');
 	$conv->close(Image::create('https://picsum.photos/240/240'));
 	
 	$agent->reply($conv);
