@@ -13,6 +13,7 @@ $conv = $agent->getActionConversation();
 
 if ($conv) {
 	$conv->close('Bu bir conversation işlemi.');
+	$agent->reply($conv);
 } else {
 	$agent->reply('İşlem action conversation değil.');
 }
