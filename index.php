@@ -17,8 +17,7 @@ $conv = $agent->getActionConversation();
 function getData( $rota ) {	
 	$data = [];	
 	$curl = curl_init();
-	curl_setopt_array($curl, array(
-	  CURLOPT_PORT => "81",
+	curl_setopt_array($curl, array(	  
 	  CURLOPT_URL => 'http://egekomp.isimheryerde.com/Test/index.php?rota=' . $rota,
 	  CURLOPT_RETURNTRANSFER => true,
 	  CURLOPT_SSL_VERIFYPEER => false,
