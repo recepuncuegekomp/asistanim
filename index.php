@@ -47,14 +47,12 @@ function getData( $rota ) {
 if ($conv) {
 	/*$conv->close('Bu bir conversation işlemi.');*/	
 
-	$conv->ask('Rapor hazırlanıyor...');
+	//$conv->ask('Rapor hazırlanıyor...');
 	
 	//$data = getData('tahsildeki_cekler');
-	//$conv->close( sprintf('Tasildeki çek adeti %s ve toplam tutar %s', $data['ADET'], $data['TUTAR']) );
+	$conv->ask( sprintf('Tasildeki çek adeti %s ve toplam tutar %s', $data['ADET'], $data['TUTAR']) );
 	
-	//$conv->close(Image::create('https://picsum.photos/240/240'));
-	
-	$conv->close('Rapor hazırlandı.');
+	$conv->close(Image::create('https://picsum.photos/240/240'));	
 	
 	$agent->reply($conv);
 } else {
