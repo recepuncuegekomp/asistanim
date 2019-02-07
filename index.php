@@ -49,7 +49,7 @@ $conv = $agent->getActionConversation();
 if ($conv) {
 	/*$conv->close('Bu bir conversation işlemi.');*/	
 
-	$data = getData('tahsildeki_cekler');
+	$data = call_user_func('tahsildeki_cekler');
 	$conv->ask( $data );
 	
 	//$conv->ask('İşte fotoğraf...');	
