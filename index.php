@@ -3,6 +3,37 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+function getCurl( $rota ) {	
+	$data = [];	
+	$curl = curl_init();
+	curl_setopt_array($curl, array(	  
+	  CURLOPT_URL => 'http://egekomp.isimheryerde.com/Test/index.php?rota=' . $rota,
+	  CURLOPT_RETURNTRANSFER => false,
+	  CURLOPT_SSL_VERIFYPEER => false,
+	  CURLOPT_SSL_VERIFYHOST => 0,	  
+	  CURLOPT_TIMEOUT => 90,
+	  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+	  CURLOPT_CUSTOMREQUEST => "POST",
+	  CURLOPT_POSTFIELDS => "",
+	  CURLOPT_HTTPHEADER => array("cache-control: no-cache"),
+	));	
+	return $curl;
+}
+
+function tahsildeki_cekler( $rota ) {	
+	$data = [];		
+	$curl = getCurl( $rota );	
+	$response = curl_exec($curl);
+	$err = curl_error($curl);
+	curl_close($curl);
+	if ($err) {
+	  //echo "cURL Error #:" . $err;
+	} else {
+	  $data = json_decode($response, true);
+	}		
+	return sprintf('Tahsildeki çek adeti %s ve toplam tutar %s', $data['ADET'], number_format($data['TUTAR'], 2, ',', '.'));
+}
+
 require 'vendor/autoload.php';
 
 use Dialogflow\WebhookClient;
@@ -12,44 +43,16 @@ use Dialogflow\Action\Questions\ListCard;
 use Dialogflow\Action\Questions\ListCard\Option;
 
 $agent = new WebhookClient(json_decode(file_get_contents('php://input'),true));
+$parameters = $agent->getParameters();
 $conv = $agent->getActionConversation();
-
-function getData( $rota ) {	
-	$data = [];	
-	$curl = curl_init();
-	curl_setopt_array($curl, array(	  
-	  CURLOPT_URL => 'http://egekomp.isimheryerde.com/Test/index.php?rota=' . $rota,
-	  CURLOPT_RETURNTRANSFER => true,
-	  CURLOPT_SSL_VERIFYPEER => false,
-	  CURLOPT_SSL_VERIFYHOST => 0,
-	  CURLOPT_ENCODING => "",
-	  CURLOPT_MAXREDIRS => 10,
-	  CURLOPT_TIMEOUT => 30,
-	  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-	  CURLOPT_CUSTOMREQUEST => "POST",
-	  CURLOPT_POSTFIELDS => "",
-	  CURLOPT_HTTPHEADER => array(		
-		"cache-control: no-cache"
-	  ),
-	));
-	$response = curl_exec($curl);
-	$err = curl_error($curl);
-	curl_close($curl);
-	if ($err) {
-	  //echo "cURL Error #:" . $err;
-	} else {
-	  $data = json_decode($response, true);
-	}		
-	return $data;
-}
 
 if ($conv) {
 	/*$conv->close('Bu bir conversation işlemi.');*/	
 
 	$data = getData('tahsildeki_cekler');
-	$conv->ask('İşte tahsildeki çekler raporunuz...');	
-	$conv->ask( sprintf('Tahsildeki çek adeti %s ve toplam tutar %s', $data['ADET'], number_format($data['TUTAR'], 2, ',', '.')) );
+	$conv->ask( $data );
 	
+	//$conv->ask('İşte fotoğraf...');	
 	//$conv->close(Image::create('https://picsum.photos/240/240'));	
 	
 	$agent->reply($conv);
