@@ -39,10 +39,10 @@ function getMesaj( $rota ) {
 	$mesaj = "Sonuç bulunamadı...";
 	switch ($rota) {
 		case "tahsildeki_cekler":
-			$mesaj = sprintf('Tahsildeki çek adeti %s, toplam tutar ise %s', $data['ADET'], TL($data['TUTAR']));
+			$mesaj = sprintf('Tahsildeki çek sayısı %s, toplam tutar ise %s', $data['ADET'], TL($data['TUTAR']));
 			break;
 		case "cari_borc_alacak":
-			$mesaj = sprintf('%s adet cari için, %s borç, %s alacak bulunuyor. Bakiye %s', $data['CARI_ADET'], TL($data['BORC']), TL($data['ALACAK']), TL($data['BAKIYE']));			
+			$mesaj = sprintf('%s adet kayıt var. %s borç, %s alacak bulunuyor. Bakiye %s', $data['CARI_ADET'], TL($data['BORC']), TL($data['ALACAK']), TL($data['BAKIYE']));			
 			break;
 	}
 	return $mesaj;
