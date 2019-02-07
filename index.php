@@ -48,7 +48,7 @@ if ($conv) {
 
 	$data = getData('tahsildeki_cekler');
 	$conv->ask('İşte tahsildeki çekler raporunuz...');	
-	$conv->ask( sprintf('Tasildeki çek adeti %s ve toplam tutar %s', $data['ADET'], number_format($data['TUTAR'], 2, ',', '.')) );
+	$conv->ask( sprintf('Tahsildeki çek adeti %s ve toplam tutar %s', $data['ADET'], number_format($data['TUTAR'], 2, ',', '.')) );
 	
 	//$conv->close(Image::create('https://picsum.photos/240/240'));	
 	
