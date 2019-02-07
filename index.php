@@ -61,7 +61,7 @@ $conv = $agent->getActionConversation();
 if ($conv) {
 	/*$conv->close('Bu bir conversation işlemi.');*/	
 
-	$sonuc = getMesaj('tahsildeki_cekler');
+	$sonuc = getMesaj($parameters['rapor_adi']);
 	$conv->ask( $sonuc );
 	
 	//$conv->ask('İşte fotoğraf...');	
