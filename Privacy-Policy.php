@@ -1,1 +1,3 @@
-Privacy-Policy
+<?php
+
+echo 'Privacy-Policy';
