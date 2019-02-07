@@ -38,7 +38,7 @@ function getData( $rota ) {
 	if ($err) {
 	  //echo "cURL Error #:" . $err;
 	} else {
-	  $data = json_decode($response);
+	  $data = json_decode($response, true);
 	}		
 	return $data;
 }
@@ -46,12 +46,11 @@ function getData( $rota ) {
 if ($conv) {
 	/*$conv->close('Bu bir conversation işlemi.');*/	
 
-	//$conv->ask('Rapor hazırlanıyor...');
-	
-	//$data = getData('tahsildeki_cekler');
+	$data = getData('tahsildeki_cekler');
+	$conv->ask('İşte tahsildeki çekler raporunuz...');	
 	$conv->ask( sprintf('Tasildeki çek adeti %s ve toplam tutar %s', $data['ADET'], $data['TUTAR']) );
 	
-	$conv->close(Image::create('https://picsum.photos/240/240'));	
+	//$conv->close(Image::create('https://picsum.photos/240/240'));	
 	
 	$agent->reply($conv);
 } else {
