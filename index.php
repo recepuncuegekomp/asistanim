@@ -61,8 +61,12 @@ $conv = $agent->getActionConversation();
 if ($conv) {
 	/*$conv->close('Bu bir conversation işlemi.');*/	
 
-	$sonuc = getMesaj($parameters['rapor_adi']);
-	$conv->ask( $sonuc );
+	if ($parameters['rapor_adi']=='stok_bul') {
+		$conv->ask( $post['queryResult']['outputContexts'][0]['parameters']['rapor_adi.original'] );
+	} else {
+		$sonuc = getMesaj($parameters['rapor_adi']);
+		$conv->ask( $sonuc );
+	}
 	
 	//$conv->ask('İşte fotoğraf...');	
 	//$conv->close(Image::create('https://picsum.photos/240/240'));	
