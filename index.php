@@ -62,7 +62,7 @@ if ($conv) {
 	/*$conv->close('Bu bir conversation işlemi.');*/	
 
 	if ($parameters['rapor_adi']=='stok_bul') {
-		$conv->ask( $post['queryResult']['outputContexts'][0]['parameters']['rapor_adi.original'] );
+		$conv->ask( $parameters['rapor_adi.original'] );
 	} else {
 		$sonuc = getMesaj($parameters['rapor_adi']);
 		$conv->ask( $sonuc );
