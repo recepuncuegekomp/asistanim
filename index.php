@@ -53,6 +53,7 @@ use Dialogflow\Action\Responses\Image;
 use Dialogflow\Action\Responses\BasicCard;
 use Dialogflow\Action\Questions\ListCard;
 use Dialogflow\Action\Questions\ListCard\Option;
+use Dialogflow\RichMessage;
 
 $agent = new WebhookClient(json_decode(file_get_contents('php://input'),true));
 $parameters = $agent->getParameters();
@@ -62,16 +63,16 @@ if ($conv) {
 	/*$conv->close('Bu bir conversation işlemi.');*/	
 
 	if ($parameters['rapor_adi']=='stok_bul') {
-		$conv->ask( $parameters['rapor_adi.original'] );
+		$agent->reply(Payload::create($parameters));
 	} else {
 		$sonuc = getMesaj($parameters['rapor_adi']);
-		$conv->ask( $sonuc );
+		$conv->ask($sonuc);
+		$agent->reply($conv);
 	}
 	
 	//$conv->ask('İşte fotoğraf...');	
 	//$conv->close(Image::create('https://picsum.photos/240/240'));	
 	
-	$agent->reply($conv);
 } else {
 	$agent->reply('İşlem action conversation değil.');
 }
