@@ -95,6 +95,26 @@ if ($conv) {
 		}		
 		$conv->ask($sonuclar);
 		
+	} else if ($parameters['rapor_adi']=='cari_bul') {
+		
+		$conv->ask('Arama yaptığımda bunları buldum:');
+		$komut = $post['queryResult']['outputContexts'][0]['parameters']['rapor_adi.original'];
+		$aranacakKelime = trim(str_replace($komut, '', $query));
+		$cariler = getData($parameters['rapor_adi'], $aranacakKelime);				
+		$sonuclar = ListCard::create();
+		$sonuclar->title('Sonuçlar:');		
+		$i = 0;		
+		foreach($cariler as $cari) {
+			$i++;
+			$sonuc = Option::create();
+			$sonuc->key('OPTION_'.$i);
+			$sonuc->title( $cari['CARI_KOD'] );			
+			$sonuc->description( $cari['CARI_ISIM'] );
+			$sonuc->image('https://picsum.photos/48/48');
+			$sonuclar->addOption($sonuc);
+		}		
+		$conv->ask($sonuclar);
+		
 	} else {
 		$sonuc = getMesaj($parameters['rapor_adi']);
 		$conv->ask($sonuc);
