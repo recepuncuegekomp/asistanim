@@ -77,7 +77,7 @@ if ($conv) {
 
 	if ($parameters['rapor_adi']=='stok_bul') {
 		
-		$conv->ask('Stok bulundu.');
+		$conv->ask('Arama yaptığımda bunları buldum:');
 		$komut = $post['queryResult']['outputContexts'][0]['parameters']['rapor_adi.original'];
 		$aranacakKelime = trim(str_replace($komut, '', $query));
 		$stoklar = getData($parameters['rapor_adi'], $aranacakKelime);				
