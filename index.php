@@ -63,12 +63,16 @@ if ($conv) {
 	/*$conv->close('Bu bir conversation işlemi.');*/	
 
 	if ($parameters['rapor_adi']=='stok_bul') {
-		$agent->reply(Payload::create($parameters));
+		$conv->ask('Stok bulundu.');
+		$fp = fopen('parameters.json', 'w');
+		fwrite($fp, json_encode($parameters));
+		fclose($fp);		
 	} else {
 		$sonuc = getMesaj($parameters['rapor_adi']);
 		$conv->ask($sonuc);
-		$agent->reply($conv);
 	}
+	
+	$agent->reply($conv);
 	
 	//$conv->ask('İşte fotoğraf...');	
 	//$conv->close(Image::create('https://picsum.photos/240/240'));	
