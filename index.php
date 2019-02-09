@@ -48,6 +48,12 @@ function getMesaj( $rota ) {
 	return $mesaj;
 }
 
+function jsonKaydet($dosyaAdi, $array) {
+	$fp = fopen($dosyaAdi . '.json', 'w');
+	fwrite($fp, json_encode($array));
+	fclose($fp);
+}
+
 use Dialogflow\WebhookClient;
 use Dialogflow\Action\Responses\Image;
 use Dialogflow\Action\Responses\BasicCard;
@@ -55,8 +61,13 @@ use Dialogflow\Action\Questions\ListCard;
 use Dialogflow\Action\Questions\ListCard\Option;
 use Dialogflow\RichMessage;
 
-$agent = new WebhookClient(json_decode(file_get_contents('php://input'),true));
+$post = json_decode(file_get_contents('php://input'),true);
+$agent = new WebhookClient($post);
 $parameters = $agent->getParameters();
+$query = $agent->getQuery();
+$originalRequest = $agent->getOriginalRequest();
+$originalRequestSource = $agent->getRequestSource();
+
 $conv = $agent->getActionConversation();
 
 if ($conv) {
@@ -64,9 +75,9 @@ if ($conv) {
 
 	if ($parameters['rapor_adi']=='stok_bul') {
 		$conv->ask('Stok bulundu.');
-		$fp = fopen('parameters.json', 'w');
-		fwrite($fp, json_encode($parameters));
-		fclose($fp);		
+		jsonKaydet('query', $query);
+		jsonKaydet('originalRequest', $originalRequest);
+		jsonKaydet('originalRequestSource', $originalRequestSource);
 	} else {
 		$sonuc = getMesaj($parameters['rapor_adi']);
 		$conv->ask($sonuc);
