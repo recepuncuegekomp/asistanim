@@ -77,7 +77,7 @@ if ($conv) {
 
 	if ($parameters['rapor_adi']=='stok_bul') {
 		$conv->ask('Stok bulundu.');
-		jsonKaydet('contexts', $contexts);		
+		jsonKaydet('contexts', $post['queryResult']['outputContexts'][0]['parameters']['rapor_adi.original']);
 	} else {
 		$sonuc = getMesaj($parameters['rapor_adi']);
 		$conv->ask($sonuc);
