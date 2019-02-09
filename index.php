@@ -67,6 +67,7 @@ $parameters = $agent->getParameters();
 $query = $agent->getQuery();
 $originalRequest = $agent->getOriginalRequest();
 $originalRequestSource = $agent->getRequestSource();
+$contexts = $agent->getContexts();
 
 $conv = $agent->getActionConversation();
 $arguments = $conv->getArguments();
@@ -76,7 +77,7 @@ if ($conv) {
 
 	if ($parameters['rapor_adi']=='stok_bul') {
 		$conv->ask('Stok bulundu.');
-		jsonKaydet('post', $post);		
+		jsonKaydet('contexts', $contexts);		
 	} else {
 		$sonuc = getMesaj($parameters['rapor_adi']);
 		$conv->ask($sonuc);
