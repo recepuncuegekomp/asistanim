@@ -9,33 +9,33 @@ function TL($sayi) {
 	return number_format($sayi, 2, ',', '.');
 }
 
-function getData( $rota ) {	
+function getData( $rota, $aranacakKelime ) {	
 	$data = null;	
 	$curl = curl_init();
 	curl_setopt_array($curl, array(	  
-	  CURLOPT_URL => 'http://egekomp.isimheryerde.com/Test/index.php?rota=' . $rota,
+	  CURLOPT_URL => "http://egekomp.isimheryerde.com/Test/index.php?rota={$rota}&aranacakKelime={$aranacakKelime}",
 	  CURLOPT_RETURNTRANSFER => true,
 	  CURLOPT_SSL_VERIFYPEER => false,
 	  CURLOPT_SSL_VERIFYHOST => 0,
-	  CURLOPT_ENCODING => "",
+	  CURLOPT_ENCODING => '',
 	  CURLOPT_MAXREDIRS => 0,
 	  CURLOPT_TIMEOUT => 90,
 	  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-	  CURLOPT_CUSTOMREQUEST => "POST",
-	  CURLOPT_POSTFIELDS => "",
+	  CURLOPT_CUSTOMREQUEST => 'POST',
+	  CURLOPT_POSTFIELDS => '',
 	  CURLOPT_HTTPHEADER => array("cache-control: no-cache"),
 	));
 	$response = curl_exec($curl);
 	$err = curl_error($curl);
 	curl_close($curl);
-	if (!$err) {	
+	if (!$err) {
 	  $data = json_decode($response, true);
 	}		
 	return $data;
 }
 
-function getMesaj( $rota ) {		
-	$data = getData( $rota );	
+function getMesaj($rota) {
+	$data = getData($rota, '');	
 	$mesaj = "Sonuç bulunamadı...";
 	switch ($rota) {
 		case "tahsildeki_cekler":
@@ -76,8 +76,29 @@ if ($conv) {
 	/*$conv->close('Bu bir conversation işlemi.');*/	
 
 	if ($parameters['rapor_adi']=='stok_bul') {
+		
+		$komut = $post['queryResult']['outputContexts'][0]['parameters']['rapor_adi.original'];
+		$aranacakKelime = trim(str_replace($komut, '', $query));
+		$stoklar_json = getData($parameters['rapor_adi'], $aranacakKelime );
+		$stoklar = json_decode($stoklar_json, true);
+		
+		$sonuclar = ListCard::create();
+		$sonuclar->title('Sonuçlar:');
+		
+		$i = 0;
+		foreach($stoklar as $stok) {
+			$i++;
+			$sonuc = Option::create();
+			$sonuc->key('OPTION_'.$i);
+			$sonuc->title( $stok['STOK_KODU'] );			
+			$sonuc->description( $stok['STOK_ADI'] );
+			$sonuc->image('https://picsum.photos/48/48');
+			$sonuclar->addOption($sonuc);
+		}
+		
 		$conv->ask('Stok bulundu.');
-		jsonKaydet('contexts', $post['queryResult']['outputContexts'][0]['parameters']['rapor_adi.original']);
+		$conv->ask($sonuclar);
+		
 	} else {
 		$sonuc = getMesaj($parameters['rapor_adi']);
 		$conv->ask($sonuc);
