@@ -77,6 +77,9 @@ if ($conv) {
 
 	if ($parameters['rapor_adi']=='stok_bul') {
 		
+		$stoklar_json = getData($parameters['rapor_adi'], 'firewall');
+		jsonKaydet('stoklar_json', json_decode($stoklar_json));
+		
 		$conv->ask('Stok bulundu.');
 		$conv->ask(ListCard::create()
 		    ->title('This is a title')
