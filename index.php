@@ -78,29 +78,23 @@ if ($conv) {
 	if ($parameters['rapor_adi']=='stok_bul') {
 		
 		$conv->ask('Stok bulundu.');
-		
-		$komut = $post['queryResult']['outputContexts'][0]['parameters']['rapor_adi.original'];
-		$aranacakKelime = trim(str_replace($komut, '', $query));
-		$stoklar_json = getData($parameters['rapor_adi'], $aranacakKelime );
-		$stoklar = json_decode($stoklar_json, true);
-		
-		/*$sonuclar = ListCard::create();
-		$sonuclar->title('Sonuçlar:');
-		
-		$i = 0;
-		foreach($stoklar as $stok) {
-			$i++;
-			$sonuc = Option::create();
-			$sonuc->key('OPTION_'.$i);
-			$sonuc->title( $stok['STOK_KODU'] );			
-			$sonuc->description( $stok['STOK_ADI'] );
-			$sonuc->image('https://picsum.photos/48/48');
-			$sonuclar->addOption($sonuc);
-		}
-				
-		$conv->ask($sonuclar);*/
-		
-		jsonKaydet('stoklar', $stoklar);
+		$conv->ask(ListCard::create()
+		    ->title('This is a title')
+		    ->addOption(Option::create()
+			->key('OPTION_1')
+			->title('Option 1')
+			->synonyms(['option one','one'])
+			->description('Select option 1')
+			->image('https://picsum.photos/48/48')
+		    )
+		    ->addOption(Option::create()
+			->key('OPTION_2')
+			->title('Option 2')
+			->synonyms(['option two','two'])
+			->description('Select option 2')
+			->image('https://picsum.photos/48/48')
+		    )
+		);
 		
 	} else {
 		$sonuc = getMesaj($parameters['rapor_adi']);
