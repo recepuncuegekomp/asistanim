@@ -77,12 +77,14 @@ if ($conv) {
 
 	if ($parameters['rapor_adi']=='stok_bul') {
 		
+		$conv->ask('Stok bulundu.');
+		
 		$komut = $post['queryResult']['outputContexts'][0]['parameters']['rapor_adi.original'];
 		$aranacakKelime = trim(str_replace($komut, '', $query));
 		$stoklar_json = getData($parameters['rapor_adi'], $aranacakKelime );
 		$stoklar = json_decode($stoklar_json, true);
 		
-		$sonuclar = ListCard::create();
+		/*$sonuclar = ListCard::create();
 		$sonuclar->title('Sonuçlar:');
 		
 		$i = 0;
@@ -95,9 +97,10 @@ if ($conv) {
 			$sonuc->image('https://picsum.photos/48/48');
 			$sonuclar->addOption($sonuc);
 		}
+				
+		$conv->ask($sonuclar);*/
 		
-		$conv->ask('Stok bulundu.');
-		$conv->ask($sonuclar);
+		jsonKaydet('stoklar', $stoklar);
 		
 	} else {
 		$sonuc = getMesaj($parameters['rapor_adi']);
