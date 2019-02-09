@@ -69,6 +69,7 @@ $originalRequest = $agent->getOriginalRequest();
 $originalRequestSource = $agent->getRequestSource();
 
 $conv = $agent->getActionConversation();
+$arguments = $conv->getArguments();
 
 if ($conv) {
 	/*$conv->close('Bu bir conversation işlemi.');*/	
@@ -78,6 +79,8 @@ if ($conv) {
 		jsonKaydet('query', $query);
 		jsonKaydet('originalRequest', $originalRequest);
 		jsonKaydet('originalRequestSource', $originalRequestSource);
+		jsonKaydet('conv', $conv);
+		jsonKaydet('arguments', $arguments);
 	} else {
 		$sonuc = getMesaj($parameters['rapor_adi']);
 		$conv->ask($sonuc);
